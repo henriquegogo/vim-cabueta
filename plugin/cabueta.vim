@@ -1,6 +1,5 @@
 sign define CabuetaDefaultSign text=>
 
-command! CC echo join(map(filter(getqflist(), "v:val.lnum == line('.')"),trim("v:val.text")),"\n")
 command! CabuetaSignQuickfix exe 'sign unplace * buffer='.bufnr('') | for item in getqflist() | if item.bufnr != 0 | exe 'sign place '.item.lnum.' line='.item.lnum.' name=CabuetaDefaultSign buffer='.item.bufnr | endif | endfor
 
 " Async
@@ -32,4 +31,5 @@ if executable('pylint')
 endif
 au BufReadPost,BufWritePost *.xml,*.html,*.js,*.ts,*.py if exists('b:cabueta_qf_list') | exe 'CabuetaLinter' | endif
 au BufWinEnter *.xml,*.html,*.js,*.ts,*.py if exists('b:cabueta_qf_list') | call CabuetaRefreshQuickfix() | endif
+au CursorMoved *.xml,*.html,*.js,*.ts,*.py if exists('b:cabueta_qf_list') | echo join(map(filter(getqflist(), "v:val.lnum == line('.')"),trim("v:val.text")),"\n") | endif
 command! CabuetaLinter exe 'CabuetaAsync '.substitute(&makeprg, '%', expand('%'), '')
