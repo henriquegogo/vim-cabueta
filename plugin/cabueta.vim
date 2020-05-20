@@ -1,6 +1,6 @@
 sign define CabuetaDefaultSign text=>
 
-command! CabuetaSignQuickfix exe 'sign unplace * buffer='.bufnr('') | for item in getqflist() | if item.bufnr != 0 | exe 'sign place '.item.lnum.' line='.item.lnum.' name=CabuetaDefaultSign buffer='.item.bufnr | endif | endfor
+command! CabuetaSignQuickfix exe 'sign unplace * group=Cabueta buffer='.bufnr('') | for item in getqflist() | if item.bufnr != 0 | exe 'sign place '.item.lnum.' group=Cabueta line='.item.lnum.' name=CabuetaDefaultSign buffer='.item.bufnr | endif | endfor
 
 " Async
 command! -nargs=? CabuetaAsync let b:cabueta_qf_list = [] | call setqflist([], 'r') | exe 'CabuetaSignQuickfix' | call job_start(['sh', '-c', <f-args>], {'callback': 'CabuetaRefreshQuickfix'})
